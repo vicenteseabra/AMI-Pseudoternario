@@ -70,13 +70,13 @@ public class Server {
                 serverSocket.setSoTimeout(SOCKET_TIMEOUT);
                 running = true;
 
-                updateStatus("✓ Servidor iniciado na porta " + port);
-                updateStatus("Aguardando conexões...");
+                updateStatus("Servidor iniciado na porta " + port);
+                updateStatus("Aguardando conexoes...");
 
                 while (running) {
                     try {
                         Socket clientSocket = serverSocket.accept();
-                        updateStatus("✓ Cliente conectado: " + clientSocket.getInetAddress().getHostAddress());
+                        updateStatus("Cliente conectado: " + clientSocket.getInetAddress().getHostAddress());
 
                         // Processa a mensagem em uma thread separada
                         handleClient(clientSocket);
@@ -89,7 +89,7 @@ public class Server {
 
             } catch (IOException e) {
                 if (running) {
-                    updateStatus("✗ Erro no servidor: " + e.getMessage());
+                    updateStatus("X Erro no servidor: " + e.getMessage());
                     e.printStackTrace();
                 }
             } finally {
@@ -130,7 +130,7 @@ public class Server {
                     // Desserializa a mensagem
                     Message message = gson.fromJson(json, Message.class);
 
-                    updateStatus("✓ Mensagem recebida (" + message.getEncodedSignal().length + " elementos)");
+                    updateStatus("Mensagem recebida (" + message.getEncodedSignal().length + " elementos)");
 
                     // Processa a mensagem via handler
                     if (messageHandler != null) {
@@ -140,11 +140,11 @@ public class Server {
                     // Envia confirmação
                     out.println("ACK");
                 } else {
-                    updateStatus("✗ Mensagem vazia recebida");
+                    updateStatus("X Mensagem vazia recebida");
                 }
 
             } catch (IOException e) {
-                updateStatus("✗ Erro ao processar cliente: " + e.getMessage());
+                updateStatus("X Erro ao processar cliente: " + e.getMessage());
                 e.printStackTrace();
             } finally {
                 try {
@@ -177,7 +177,7 @@ public class Server {
             }
         }
 
-        updateStatus("✓ Servidor parado");
+        updateStatus("Servidor parado");
     }
 
     /**

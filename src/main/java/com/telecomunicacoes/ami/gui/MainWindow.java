@@ -315,6 +315,15 @@ public class MainWindow {
                 return;
             }
 
+            // Verifica se o servidor está rodando
+            if (!server.isRunning()) {
+                showAlert("Servidor Não Iniciado",
+                    "O servidor precisa estar rodando para receber mensagens.\n\n" +
+                    "Clique em '▶ Iniciar Servidor' primeiro!");
+                log("⚠ Tentativa de envio com servidor parado");
+                return;
+            }
+
             // Cria mensagem
             Message message = new Message();
             message.setOriginalText(txtOriginalTx.getText());

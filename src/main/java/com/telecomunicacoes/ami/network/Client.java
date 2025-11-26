@@ -105,8 +105,9 @@ public class Client {
             }
 
         } catch (IOException e) {
-            updateStatus("✗ Erro de conexão: " + e.getMessage());
-            throw e;
+            String detailedError = getDetailedErrorMessage(e);
+            updateStatus("✗ " + detailedError);
+            throw new IOException(detailedError, e);
         }
     }
 
@@ -155,6 +156,29 @@ public class Client {
      */
     public void setServerPort(int port) {
         this.serverPort = port;
+    }
+
+    /**
+     * Gera mensagem de erro detalhada baseada na exceção
+     * @param e Exceção ocorrida
+     * @return Mensagem de erro amigável
+     */
+    private String getDetailedErrorMessage(IOException e) {
+        String msg = e.getMessage().toLowerCase();
+
+        if (msg.contains("connection refused")) {
+            return "Erro de conexão: Servidor não está rodando. Clique em '▶ Iniciar Servidor' primeiro!";
+        } else if (msg.contains("cannot assign requested address")) {
+            return "Erro de conexão: Servidor não está ativo. Inicie o servidor antes de enviar!";
+        } else if (msg.contains("no route to host")) {
+            return "Erro de conexão: Não foi possível alcançar o servidor " + serverAddress;
+        } else if (msg.contains("connection timed out")) {
+            return "Erro de conexão: Timeout - servidor não respondeu em " + (CONNECTION_TIMEOUT/1000) + " segundos";
+        } else if (msg.contains("network is unreachable")) {
+            return "Erro de conexão: Rede não está acessível";
+        } else {
+            return "Erro de conexão: " + e.getMessage();
+        }
     }
 
     /**
