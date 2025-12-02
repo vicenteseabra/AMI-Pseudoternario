@@ -267,9 +267,29 @@ public class MainWindow {
     private void processTransmission() {
         try {
             String original = txtOriginalTx.getText().trim();
+            String binaryInput = txtBinaryTx.getText().trim().replaceAll("\\s", "");
 
+            // Verifica se há binário para processar diretamente
+            if (!binaryInput.isEmpty() && binaryInput.matches("[01]+")) {
+                log("▶ Processando a partir de binário...");
+
+                // Codificação AMI direto do binário
+                int[] signal = ami.encode(binaryInput);
+                txtEncodedTx.setText(AMIPseudoternary.signalToString(signal) + "\n\n" +
+                        AMIPseudoternary.getSignalStatistics(signal));
+                log("  1. Codificado em AMI Pseudoternário");
+
+                // Visualização
+                chartTx.setSignal(signal);
+                log("  2. Forma de onda gerada");
+
+                log("✓ Processamento concluído! Pronto para enviar.");
+                return;
+            }
+
+            // Fluxo normal: precisa da mensagem original
             if (original.isEmpty()) {
-                showAlert("Erro", "Digite uma mensagem para processar!");
+                showAlert("Erro", "Digite uma mensagem ou insira uma sequência binária (0s e 1s) para processar!");
                 return;
             }
 

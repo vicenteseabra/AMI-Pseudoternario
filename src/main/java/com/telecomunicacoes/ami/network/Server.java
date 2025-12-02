@@ -89,7 +89,7 @@ public class Server {
 
             } catch (IOException e) {
                 if (running) {
-                    updateStatus("X Erro no servidor: " + e.getMessage());
+                    updateStatus("Erro no servidor: " + e.getMessage());
                     e.printStackTrace();
                 }
             } finally {
@@ -140,11 +140,11 @@ public class Server {
                     // Envia confirmação
                     out.println("ACK");
                 } else {
-                    updateStatus("X Mensagem vazia recebida");
+                    updateStatus("Mensagem vazia recebida");
                 }
 
             } catch (IOException e) {
-                updateStatus("X Erro ao processar cliente: " + e.getMessage());
+                updateStatus("Erro ao processar cliente: " + e.getMessage());
                 e.printStackTrace();
             } finally {
                 try {

@@ -96,12 +96,12 @@ public class Client {
             try {
                 String response = in.readLine();
                 if ("ACK".equals(response)) {
-                    updateStatus("✓ Mensagem enviada e confirmada!");
+                    updateStatus("Mensagem enviada e confirmada!");
                 } else {
-                    updateStatus("✗ Resposta inesperada: " + response);
+                    updateStatus("Resposta inesperada: " + response);
                 }
             } catch (SocketTimeoutException e) {
-                updateStatus("⚠ Timeout aguardando confirmação (mas mensagem foi enviada)");
+                updateStatus("Timeout aguardando confirmação (mas mensagem foi enviada)");
             }
 
         } catch (IOException e) {
@@ -121,12 +121,12 @@ public class Client {
 
             try (Socket socket = new Socket(serverAddress, serverPort)) {
                 socket.setSoTimeout(2000);
-                updateStatus("✓ Servidor respondeu!");
+                updateStatus("Servidor respondeu!");
                 return true;
             }
 
         } catch (IOException e) {
-            updateStatus("✗ Servidor não está acessível: " + e.getMessage());
+            updateStatus("Servidor não está acessível: " + e.getMessage());
             return false;
         }
     }
